@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module configVersion="1.2">
+	<id>keaddonexample</id>
+	<name>KenyaEMR Add-on Example Module</name>
+	<version>1.0-SNAPSHOT</version>
+	<package>org.openmrs.module.keaddonexample</package>
+	<author>I-TECH</author>
+	<description>Example of adding content to KenyaEMR</description>
+	<updateURL>https://dev.openmrs.org/modules/download/keaddonexample/update.rdf</updateURL>
+	<require_version>1.9.3</require_version>
+	<require_modules>
+		<require_module version="13.3-RC3-SNAPSHOT">org.openmrs.module.kenyaemr</require_module>
+	</require_modules>
+	<activator>org.openmrs.module.keaddonexample.ExampleActivator</activator>
+	<messages>
+		<lang>en</lang>
+		<file>messages.properties</file>
+	</messages>
+</module>

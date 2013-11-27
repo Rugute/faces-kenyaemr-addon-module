@@ -31,15 +31,15 @@
 		<!-- Module dependencies -->
 		<appframeworkVersion>1.5</appframeworkVersion>
 		<calculationVersion>1.0</calculationVersion>
-		<htmlformentryVersion>2.1</htmlformentryVersion>
-		<idgenVersion>2.5</idgenVersion>
+		<htmlformentryVersion>2.2.1</htmlformentryVersion>
+		<idgenVersion>2.6</idgenVersion>
 		<kenyacoreVersion>0.15-SNAPSHOT</kenyacoreVersion>
-		<kenyaemrVersion>13.3-SNAPSHOT</kenyaemrVersion>
-		<kenyauiVersion>1.12.5</kenyauiVersion>
+		<kenyaemrVersion>13.3-RC3-SNAPSHOT</kenyaemrVersion>
+		<kenyauiVersion>1.13.2-SNAPSHOT</kenyauiVersion>
 		<metadatasharingVersion>1.1.8</metadatasharingVersion>
-		<reportingVersion>0.7.6</reportingVersion>
+		<reportingVersion>0.8</reportingVersion>
 		<serializationxstreamVersion>0.2.7</serializationxstreamVersion>
-		<uiframeworkVersion>3.0</uiframeworkVersion>
+		<uiframeworkVersion>3.1</uiframeworkVersion>
 
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
