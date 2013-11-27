@@ -14,10 +14,12 @@
 
 package org.openmrs.module.keaddonexample.metadata;
 
-import org.openmrs.module.kenyacore.metadata.bundle.AbstractMetadataBundle;
+//import org.openmrs.module.kenyacore.metadata.bundle.AbstractMetadataBundle;
 import org.springframework.stereotype.Component;
-
-import static org.openmrs.module.kenyacore.metadata.bundle.CoreConstructors.*;
+import org.openmrs.module.metadatadeploy.bundle.AbstractMetadataBundle;
+//import static org.openmrs.module.kenyacore.metadata.bundle.CoreConstructors.encounterType;
+//import static org.openmrs.module.kenyacore.metadata.bundle.CoreConstructors.form;
+import static org.openmrs.module.metadatadeploy.bundle.CoreConstructors.*;
 
 /**
  * Example metadata bundle

@@ -7,9 +7,9 @@
 	<author>I-TECH</author>
 	<description>Example of adding content to KenyaEMR</description>
 	<updateURL>https://dev.openmrs.org/modules/download/keaddonexample/update.rdf</updateURL>
-	<require_version>1.9.3</require_version>
+	<require_version>1.9.6</require_version>
 	<require_modules>
-		<require_module version="13.3-RC3-SNAPSHOT">org.openmrs.module.kenyaemr</require_module>
+		<require_module version="13.3-RC2">org.openmrs.module.kenyaemr</require_module>
 	</require_modules>
 	<activator>org.openmrs.module.keaddonexample.ExampleActivator</activator>
 	<messages>

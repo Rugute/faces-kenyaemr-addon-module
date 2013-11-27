@@ -36,6 +36,7 @@
 		<kenyacoreVersion>0.16</kenyacoreVersion>
 		<kenyaemrVersion>13.3-RC2</kenyaemrVersion>
 		<kenyauiVersion>1.13.1</kenyauiVersion>
+        <metadatadeployVersion>0.1</metadatadeployVersion>
 		<metadatasharingVersion>1.1.8</metadatasharingVersion>
 		<reportingVersion>0.8</reportingVersion>
 		<serializationxstreamVersion>0.2.7</serializationxstreamVersion>
@@ -104,6 +105,13 @@
 				<version>${kenyauiVersion}</version>
 				<scope>provided</scope>
 			</dependency>
+
+            <dependency>
+                <groupId>org.openmrs.module</groupId>
+                <artifactId>metadatadeploy-api</artifactId>
+                <version>${metadatadeployVersion}</version>
+                <scope>provided</scope>
+            </dependency>
 
 			<dependency>
 				<groupId>org.openmrs.module</groupId>
