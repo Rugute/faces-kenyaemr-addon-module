@@ -38,12 +38,25 @@
         <property name="htmlform" value="keaddonexample:adherence.html" />
     </bean>
 
+    <bean id="keaddonexample.form.mohArvTherapy" class="org.openmrs.module.kenyacore.form.FormDescriptor">
+        <property name="targetUuid" value="d25da84f-46ff-4349-ac7b-09d6e0622c98" />
+        <property name="apps">
+            <set>
+                <ref bean="kenyaemr.app.clinician" />
+                <ref bean="kenyaemr.app.chart" />
+            </set>
+        </property>
+        <property name="icon" value="keaddonexample:forms/example.png" />
+        <property name="htmlform" value="keaddonexample:mohArvTherapy.html" />
+    </bean>
+
 	<bean id="keaddonexample.config.form" class="org.openmrs.module.kenyacore.form.FormConfiguration">
 		<!-- Example of adding a form to the general visit form list -->
 		<property name="commonVisitForms">
 			<set>
 				<ref bean="keaddonexample.form.example" />
                 <ref bean="keaddonexample.form.adherence" />
+                <ref bean="keaddonexample.form.mohArvTherapy" />
 			</set>
 		</property>
 
