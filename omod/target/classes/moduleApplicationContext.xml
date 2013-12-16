@@ -51,7 +51,7 @@
     </bean>
 
     <bean id="keaddonexample.form.moh257Enrollment" class="org.openmrs.module.kenyacore.form.FormDescriptor">
-        <property name="targetUuid" value="d25da84f-46ff-4349-ac7b-09d6e0622c98" />
+        <property name="targetUuid" value="f432f3a8-4350-4f26-865b-b8e74c5a55e3" />
         <property name="apps">
             <set>
                 <ref bean="kenyaemr.app.clinician" />
