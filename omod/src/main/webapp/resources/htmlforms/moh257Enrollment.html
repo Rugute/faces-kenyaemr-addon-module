@@ -41,6 +41,41 @@ var DIVORCED = 1058;
 /* allergy to other medicine concept */
 var ALLERGY_TO_OTHER=5622;
 
+function setMaritalStatus()
+{
+    var mStatus=parseInt("<lookup complexExpression="#set($t = $fn.latestObs(1054)) $t.valueCoded"/>" )
+    if (mStatus==POLYGAMOUS)
+    {
+        jq('#ms_mp').find('input[type=checkbox]').attr('checked',true);
+    }
+
+    else if (mStatus==MONOGAMOUS)
+    {
+        jq('#ms_mm').find('input[type=checkbox]').attr('checked',true);
+    }
+
+    else if (mStatus==DIVORCED)
+    {
+        jq('#ms_di').find('input[type=checkbox]').attr('checked',true);
+    }
+
+    else if (mStatus==WIDOW)
+    {
+        jq('#ms_wi').find('input[type=checkbox]').attr('checked',true);
+    }
+
+    else if (mStatus==COHABITING)
+    {
+        jq('#ms_co').find('input[type=checkbox]').attr('checked',true);
+    }
+
+    else if (mStatus==SINGLE)
+    {
+        jq('#ms_si').find('input[type=checkbox]').attr('checked',true);
+    }
+
+}
+
 function onEncounterDateChange()
 {
     var age =  getValue('age.value')
@@ -78,7 +113,11 @@ function OnTransferStatusChange()
 {
     if (getValue('ep_transfer_in.value')== TRANSFER_IN_CONCEPT_ID)
     {
-        jq('#transfer_details').show();
+        //jq('#transfer_details').show();
+        jq('#ti_date').find('input[class=hasDatepicker]').removeAttr('disabled');
+        jq('#ti_district').find('input[type=text]').removeAttr('disabled');
+        jq('#ti_facility').find('input[type=text]').removeAttr('disabled');
+        jq('#ti_date_started_haart').find('input[class=hasDatepicker]').removeAttr('disabled');
     }
     else
     {
@@ -86,7 +125,12 @@ function OnTransferStatusChange()
         setValue('ti_district.value', '');
         setValue('ti_facility.value', '');
         setValue('ti_date_started_haart.value', '');
-        jq('#transfer_details').hide();
+        //jq('#transfer_details').hide();
+
+        jq('#ti_date').find('input[class=hasDatepicker]').attr('disabled','true');
+        jq('#ti_date_started_haart').find('input[class=hasDatepicker]').attr('disabled','true');
+        jq('#ti_district').find('input[type=text]').attr('disabled','true');
+        jq('#ti_facility').find('input[type=text]').attr('disabled','true');
     }
 }
 
@@ -185,6 +229,7 @@ jq(function() {
         }
         else
         {
+            setValue('allergy_detail.value', '');
             jq('#allergy_detail').hide();
 
         }
@@ -235,6 +280,9 @@ jq(function() {
     /* hide or display ART History in fields */
     jq('#art-status input').click(OnARTStatusChange);
     OnARTStatusChange();
+
+    jq('#ms_mp input').click(setMaritalStatus);
+    setMaritalStatus();
 
 });
 </script>
@@ -405,7 +453,7 @@ jq(function() {
                     <tr>
                         <td><br/>Date Confirmed HIV Positive</td>
                         <td><br/><obs id="date_confirmed_pos"  conceptId="160554AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/><span id="date_confirmed_error"></span></td>
-                        <td><br/>Where? <obs conceptId="159936AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/></td>
+                        <td><br/>Where? <obs conceptId="160632AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/></td>
 
                     </tr>
                     <tr>
