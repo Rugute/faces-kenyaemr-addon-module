@@ -1,0 +1,739 @@
+<!--
+  ~ The contents of this file are subject to the OpenMRS Public License
+  ~ Version 1.0 (the "License"); you may not use this file except in
+  ~ compliance with the License. You may obtain a copy of the License at
+  ~ http://license.openmrs.org
+  ~
+  ~ Software distributed under the License is distributed on an "AS IS"
+  ~ basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+  ~ License for the specific language governing rights and limitations
+  ~ under the License.
+  ~
+  ~ Copyright (C) OpenMRS, LLC.  All Rights Reserved.
+-->
+<htmlform>
+<style type="text/css">
+    table.Discontinuation  {
+        border-collapse: collapse;
+    //background-color: #dddddd;
+        }
+    table.Discontinuation> tbody > tr > td, table.Discontinuation> tbody > tr > th {
+        border: 1px solid black;
+        vertical-align: baseline;
+        padding: 4px;
+        text-align: left;
+    }
+</style>
+
+
+<script type="text/javascript">
+var value1;
+var REFUSEDCARE_CONCEPT_ID=127750;
+var DECEASED_CONCEPT_ID=160034;
+var HIVNEGATIVE_CONCEPT_ID=1403;
+var TRANSFEROUT_CONCEPT_ID=159492;
+
+function validateEncounterDate(){
+    var today=new Date().getTime();
+    var enc_date=new Date(getValue('encounter-date.value')).getTime();
+    var birthdate=new Date("<lookup expression="patient.birthdate"/>").getTime ();
+
+    if (enc_date &gt; today){
+        getField('encounter-date.error').html('cannnot be a future date').show();
+    }
+
+    else if (enc_date &lt; birthdate){
+        getField('encounter-date.error').html('cannot be less than the date of birth').show();
+    }
+
+    else
+    {
+        getField('encounter-date.error').hide();
+    }
+}
+
+function validateDeathDate(){
+    var today=new Date().getTime();
+    var Deathdate=new Date(getValue('Deathdate.value')).getTime();
+    var birthdate=new Date("<lookup expression="patient.birthdate"/>").getTime ();
+
+    if (Deathdate &gt; today){
+        getField('Deathdate.error').html('cannnot be a future date').show();
+    }
+
+    else if (Deathdate &lt; birthdate){
+        getField('Deathdate.error').html('cannot be less than the date of birth').show();
+    }
+
+    else
+    {
+        getField('Deathdate.error').hide();
+    }
+}
+
+function validateTransferDate(){
+    var today=new Date().getTime();
+    var transfer_date=new Date(getValue('transferdate.value')).getTime();
+    var birthdate=new Date("<lookup expression="patient.birthdate"/>").getTime ();
+
+    if (transfer_date &gt; today){
+        getField('transferdate.error').html('cannnot be a future date').show();
+    }
+
+    else if (transfer_date &lt; birthdate){
+        getField('transferdate.error').html('cannot be less than the date of birth').show();
+    }
+
+    else
+    {
+        getField('transferdate.error').hide();
+    }
+}
+
+function validatenegativedateDate(){
+    var today=new Date().getTime();
+    var negativedate_date=new Date(getValue('negativedate.value')).getTime();
+    var birthdate=new Date("<lookup expression="patient.birthdate"/>").getTime ();
+
+    if (negativedate_date &gt; today){
+        getField('negativedate.error').html('This date cannnot be a future date').show();
+    }
+
+    else if (negativedate_date &lt; birthdate){
+        getField('negativedate.error').html('cannot be less than the date of birth').show();
+    }
+
+    else
+    {
+        getField('negativedate.error').hide();
+    }
+}
+
+function validaterefuseddateDate(){
+    var today=new Date().getTime();
+    var refuseddate=new Date(getValue('refuseddate.value')).getTime();
+    var birthdate=new Date("<lookup expression="patient.birthdate"/>").getTime ();
+
+    if (refuseddate &gt; today){
+        getField('refuseddate.error').html('cannnot be a future date').show();
+    }
+
+    else if (refuseddate &lt; birthdate){
+        getField('refuseddate.error').html('cannot be less than the date of birth').show();
+    }
+
+    else
+    {
+        getField('refuseddate.error').hide();
+    }
+}
+
+function validateestimateddateDate(){
+    var today=new Date().getTime();
+    var estmateddate=new Date(getValue('estmateddate.value')).getTime();
+    var birthdate=new Date("<lookup expression="patient.birthdate"/>").getTime ();
+
+    if (estmateddate &gt; today){
+        getField('estmateddate.error').html('cannnot be a future date').show();
+    }
+
+    else if (estmateddate &lt; birthdate){
+        getField('estmateddate.error').html('cannot be less than the date of birth').show();
+    }
+
+    else
+    {
+        getField('estmateddate.error').hide();
+    }
+}
+function getSelectedTO()
+{
+    if(jq('#dis_Transfer').find('input[type=checkbox]').attr('checked')==true )
+    {
+        jq('#dis_Deceased').find('input[type=checkbox]').attr('checked',false);
+        jq('#dis_refusedCare').find('input[type=checkbox]').attr('checked',false);
+        jq('#dis_LFU').find('input[type=checkbox]').attr('checked',false);
+        jq('#dis_Hivneg').find('input[type=checkbox]').attr('checked',false);
+        jq('#dis_Other').find('input[type=checkbox]').attr('checked',false);
+    }
+
+}
+
+function getSelectedHivNeg()
+{
+    if(jq('#dis_Hivneg').find('input[type=checkbox]').attr('checked')==true )
+    {
+        jq('#dis_Deceased').find('input[type=checkbox]').attr('checked',false);
+        jq('#dis_refusedCare').find('input[type=checkbox]').attr('checked',false);
+        jq('#dis_LFU').find('input[type=checkbox]').attr('checked',false);
+        jq('#dis_Transfer').find('input[type=checkbox]').attr('checked',false);
+        jq('#dis_Other').find('input[type=checkbox]').attr('checked',false);
+    }
+}
+
+function getSelectedOther()
+{
+    if(jq('#dis_Other').find('input[type=checkbox]').attr('checked')==true )
+    {
+        jq('#dis_Deceased').find('input[type=checkbox]').attr('checked',false);
+        jq('#dis_refusedCare').find('input[type=checkbox]').attr('checked',false);
+        jq('#dis_LFU').find('input[type=checkbox]').attr('checked',false);
+        jq('#dis_Transfer').find('input[type=checkbox]').attr('checked',false);
+        jq('#dis_Hivneg').find('input[type=checkbox]').attr('checked',false);
+    }
+}
+
+function getSelectedDead()
+{
+    if(jq('#dis_Deceased').find('input[type=checkbox]').attr('checked')==true )
+    {
+        jq('#dis_Other').find('input[type=checkbox]').attr('checked',false);
+        jq('#dis_refusedCare').find('input[type=checkbox]').attr('checked',false);
+        jq('#dis_LFU').find('input[type=checkbox]').attr('checked',false);
+        jq('#dis_Transfer').find('input[type=checkbox]').attr('checked',false);
+        jq('#dis_Hivneg').find('input[type=checkbox]').attr('checked',false);
+    }
+}
+
+function getSelectedRefused()
+{
+    if(jq('#dis_refusedCare').find('input[type=checkbox]').attr('checked')==true )
+    {
+        jq('#dis_Other').find('input[type=checkbox]').attr('checked',false);
+        jq('#dis_Deceased').find('input[type=checkbox]').attr('checked',false);
+        jq('#dis_LFU').find('input[type=checkbox]').attr('checked',false);
+        jq('#dis_Transfer').find('input[type=checkbox]').attr('checked',false);
+        jq('#dis_Hivneg').find('input[type=checkbox]').attr('checked',false);
+    }
+}
+function getSelectedLFU()
+{
+    if(jq('#dis_LFU').find('input[type=checkbox]').attr('checked')==true )
+    {
+        jq('#dis_Other').find('input[type=checkbox]').attr('checked',false);
+        jq('#dis_Deceased').find('input[type=checkbox]').attr('checked',false);
+        jq('#dis_refusedCare').find('input[type=checkbox]').attr('checked',false);
+        jq('#dis_Transfer').find('input[type=checkbox]').attr('checked',false);
+        jq('#dis_Hivneg').find('input[type=checkbox]').attr('checked',false);
+    }
+}
+
+function patientTransferOut()
+{
+    if (getValue('dis_Transfer.value')==TRANSFEROUT_CONCEPT_ID)
+    {
+        jq('#transferdate').find('input[class=hasDatepicker]').removeAttr('disabled');
+        jq('#transfer_Clinic').find('input[type=text]').removeAttr('disabled');
+        jq('#transfer_District').find('input[type=text]').removeAttr('disabled');
+
+    }
+    else
+    {
+        //clear Values if any
+        jq('#transferdate').find('input[class=hasDatepicker]').attr('value','');
+        jq('#transfer_Clinic').find('input[type=text]').attr('value','');
+        jq('#transfer_District').find('input[type=text]').attr('value','');
+
+        //Disable Controls
+        jq('#transferdate').find('input[class=hasDatepicker]').attr('disabled','true');
+        jq('#transfer_Clinic').find('input[type=text]').attr('disabled','true');
+        jq('#transfer_District').find('input[type=text]').attr('disabled','true');
+    }
+    getSelectedTO();
+    getSelectedHivNeg();
+    getSelectedDead();
+    getSelectedOther();
+    getSelectedLFU();
+    getSelectedRefused();
+}
+
+function patientHivNegative()
+{
+    if (getValue('dis_Hivneg.value')==HIVNEGATIVE_CONCEPT_ID)
+    {
+        jq('#negativedate').find('input[class=hasDatepicker]').removeAttr('disabled');
+        jq('#hiv_Test_Type').find('input[type=radio]').removeAttr('disabled');
+
+    }
+    else
+    {
+        //Clear Controls Data If any
+        jq('#hiv_Test_Type').find('input[type=radio]').attr('checked',false);
+        jq('#negativedate').find('input[class=hasDatepicker]').attr('value','');
+
+        //Disable Controls
+        jq('#hiv_Test_Type').find('input[type=radio]').attr('disabled','true');
+        jq('#negativedate').find('input[class=hasDatepicker]').attr('disabled','true');
+
+    }
+    getSelectedHivNeg();
+    getSelectedTO();
+    getSelectedDead();
+    getSelectedOther();
+    getSelectedLFU();
+    getSelectedRefused();
+}
+
+function patientRefusedCare()
+{
+    if (getValue('dis_refusedCare.value')==REFUSEDCARE_CONCEPT_ID)
+    {
+        jq('#refuseddate').find('input[class=hasDatepicker]').removeAttr('disabled');
+        //jq('#source_of_info1').find('input[type=checkbox]').removeAttr('disabled');
+        //jq('#source_of_info2').find('input[type=checkbox]').removeAttr('disabled');
+        //jq('#source_of_info3').find('input[type=checkbox]').removeAttr('disabled');
+    }
+    else
+    {
+        // jq('#refuseddate').prop('disabled', true);
+
+        jq('#refuseddate').find('input[class=hasDatepicker]').attr('disabled','true');
+        //jq('#source_of_info1').find('input[type=checkbox]').attr('disabled','true');
+        //jq('#source_of_info2').find('input[type=checkbox]').attr('disabled','true');
+        //jq('#source_of_info3').find('input[type=checkbox]').attr('disabled','true');
+
+        //Clear any data
+        jq('#refuseddate').find('input[class=hasDatepicker]').attr('value','');
+        //jq('#source_of_info1').find('input[type=checkbox]').attr('value','');
+        //jq('#source_of_info2').find('input[type=checkbox]').attr('value','');
+        //jq('#source_of_info3').find('input[type=checkbox]').attr('value','');
+
+    }
+
+    getSelectedRefused();
+    getSelectedTO();
+    getSelectedHivNeg();
+    getSelectedDead();
+    getSelectedOther();
+    getSelectedLFU();
+}
+
+function patientDeceased()
+{
+    if (getValue('dis_Deceased.value')==DECEASED_CONCEPT_ID)
+    {
+        jq('#Deathdate').find('input[class=hasDatepicker]').removeAttr('disabled');
+        jq('#doa').find('input[class=hasDatepicker]').removeAttr('disabled');
+        jq('#estmateddate').find('input[class=hasDatepicker]').removeAttr('disabled');
+        //jq('#other_info').find('input[type=checkbox]').removeAttr('disabled');
+        //jq('#death_Cert').find('input[type=checkbox]').removeAttr('disabled');
+        //jq('#autopsy').find('input[type=checkbox]').removeAttr('disabled');
+        //jq('#friend_Relative').find('input[type=checkbox]').removeAttr('disabled');
+        //jq('#hospital').find('input[type=checkbox]').removeAttr('disabled');
+        jq('#cod').find('input[type=dropdown]').removeAttr('disabled');
+
+        jq('#died_Hospital').find('input[type=checkbox]').removeAttr('disabled');
+        jq('#died_Other').find('input[type=checkbox]').removeAttr('disabled');
+        jq('#died_Home').find('input[type=checkbox]').removeAttr('disabled');
+        jq('#died_Private_Clinic').find('input[type=checkbox]').removeAttr('disabled');
+        jq('#died_Health_Center').find('input[type=checkbox]').removeAttr('disabled');
+
+    }
+    else
+    {
+        //jq('#hospital').find('input[type=checkbox]').attr('value','');
+        //jq('#friend_Relative').find('input[type=checkbox]').attr('value','');
+        //jq('#autospy').find('input[type=checkbox]').attr('value','');
+        //jq('#other_info').find('input[type=checkbox]').attr('value','');
+        //jq('#death_Cert').find('input[type=checkbox]').attr('value','');
+        jq('#Deathdate').find('input[class=hasDatepicker]').attr('value','');
+        jq('#estmateddate').find('input[class=hasDatepicker]').attr('value','');
+        jq('#doa').find('input[class=hasDatepicker]').attr('value','');
+        jq('#cod').find('input[type=dropdown]').attr('value','');
+
+        jq('#died_Hospital').find('input[type=checkbox]').attr('value','');
+        jq('#died_Other').find('input[type=checkbox]').attr('value','');
+        jq('#died_Home').find('input[type=checkbox]').attr('value','');
+        jq('#died_Private_Clinic').find('input[type=checkbox]').attr('value','');
+        jq('#died_Health_Center').find('input[type=checkbox]').attr('value','');
+
+        //Disable Controls
+        //jq('#hospital').find('input[type=checkbox]').attr('disabled','true');
+        //jq('#friend_Relative').find('input[type=checkbox]').attr('disabled','true');
+        //jq('#autospy').find('input[type=checkbox]').attr('disabled','true');
+        //jq('#other_info').find('input[type=checkbox]').attr('disabled','true');
+        //jq('#death_Cert').find('input[type=checkbox]').attr('disabled','true');
+        jq('#Deathdate').find('input[class=hasDatepicker]').attr('disabled','true');
+        jq('#estmateddate').find('input[class=hasDatepicker]').attr('disabled','true');
+        jq('#doa').find('input[class=hasDatepicker]').attr('disabled','true');
+
+        jq('#died_Hospital').find('input[type=checkbox]').attr('disabled','true');
+        jq('#died_Other').find('input[type=checkbox]').attr('disabled','true');
+        jq('#died_Home').find('input[type=checkbox]').attr('disabled','true');
+        jq('#died_Private_Clinic').find('input[type=checkbox]').attr('disabled','true');
+        jq('#died_Health_Center').find('input[type=checkbox]').attr('disabled','true');
+        jq('#cod').find('input[type=dropDown]').attr('disabled','true');
+        // jq('#cod').prop('disabled', true);
+        // jq('#cod :input').prop('disabled', true);
+
+    }
+    getSelectedDead();
+    getSelectedTO();
+    getSelectedHivNeg();
+    getSelectedOther();
+    getSelectedLFU();
+    getSelectedRefused();
+
+
+}
+
+jq(document).ready(function(){
+
+    var pbirthdate = new Date("<lookup expression="patient.birthdate" />").getTime();
+    var discontinueDate;
+    getField('encounter-date.value').change(validateEncounterDate);
+    validateEncounterDate();
+    getField('transferdate.value').change(validateTransferDate);
+    validateTransferDate();
+    getField('Deathdate.value').change(validateDeathDate);
+    validateDeathDate();
+    getField('negativedate.value').change(validatenegativedateDate);
+    validatenegativedateDate();
+    getField('estmateddate.value').change(validateestimateddateDate);
+    validateestimateddateDate();
+
+    patientTransferOut();
+    jq('#dis_Transfer input').click(patientTransferOut);
+
+    patientHivNegative();
+    jq('#dis_Hivneg input').click(patientHivNegative);
+
+    patientRefusedCare();
+    jq('#dis_refusedCare input').click(patientRefusedCare);
+
+    patientDeceased();
+    jq('#dis_Deceased input').click(patientDeceased);
+
+    getSelectedOther();
+    jq('#dis_Other input').click(getSelectedOther);
+
+    getSelectedLFU();
+    jq('#dis_LFU input').click(getSelectedLFU);
+
+
+    beforeSubmit.push(function() {
+        discontinueDate = new Date(getValue('encounter-date.value')).getTime();
+
+        if(discontinueDate &lt; pbirthdate){
+            getField('discontinueDate.error').html('Discontinue date, should not be earlier than Birth date').show();
+            return false;
+        }
+        // alert(pbirthdate+" and "+discontinueDate);
+        return true;
+    });
+});
+</script>
+<!-- Should always be the current user -->
+<div style="display:none">
+    <encounterProvider default="1cc7dc79-ad09-4897-8a1d-0b3d3226e9ee" />
+</div>
+<div class="ke-form-header">
+    <table style="width: 100%">
+        <tr>
+            <td>Date: <encounterDate id="encounter-date" showTime="false"/></td>
+            <td>Enrolled at: <encounterLocation id="site" default="GlobalProperty:kenyaemr.defaultLocation"/></td>
+        </tr>
+    </table>
+
+</div>
+
+
+
+
+<div class="ke-form-content">
+<table class="Discontinuation" align="center">
+
+<tr>
+    <td colspan="3">Current ARV regimen
+        <obs conceptId="1088AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="792AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,794AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,630AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,84309AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,74807AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,70056AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,80487AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,80586AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,75523AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,78643AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,84795AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,77995AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,160104AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,160105AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,86663AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,75628AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,79040AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,83412AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,71647AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1652AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,161363AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,161364AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,161361AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,103166AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,104565AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162201AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,817AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162199AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162200AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+             answerLabels="D4T/3TC/NVP,
+                                             LPV/R,
+                                             AZT/3TC,
+                                             D4T,
+                                             DDI,
+                                             ABC,
+                                             NELFINAVIR,
+                                             NVP,
+                                             EFV,
+                                             3TC,
+                                             TDF,
+                                             IDV,
+                                             AZT/3TC/EFV,
+                                             D4T/3TC/EFV,
+                                             AZT,
+                                             FTC,
+                                             LPV,
+                                             RTV,
+                                             ATV,
+                                             3TC/NVP/AZT,
+                                             3TC/D4T,
+                                             TDF/3TC,
+                                             EDF/3TC/EFV,
+                                             ABC/3TC,
+                                             EFV/FTC/TDF,
+                                             3TC/LPV/r/TDF,
+                                             ABC/3TC/AZT,
+                                             ABC/NVP/3TC,
+                                             3TC/ABC/LPV/r"/>
+        <obs conceptId="1148AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="PMTCT" style="checkbox"/>
+        <obs conceptId="1181AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"    answerConceptId="1185AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="HAART" style="checkbox"/>
+        <!-- <obs conceptId="1648" answerConceptIds="1407,1405,1107" answerLabels="HAART,PPCT,None" id="emptim" style="radio"/>   -->
+    </td>
+</tr>
+
+<tr>
+    <td colspan="3">
+
+        <b>Reason for patient discontinuation</b>
+    </td>
+</tr>
+<tr>
+    <td rowspan="4"><obs conceptId="161555AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="127750AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="" id="dis_refusedCare" style="checkbox" /></td>
+    <td style="background-color: #696969; color: #ffffff;" colspan="2"><b>Patient Refused Care</b></td>
+</tr>
+<tr>
+    <td colspan="2">
+        <table id="test1">
+            <tr>
+                <td><b>Date Patient Refused Care:</b><obs id="refuseddate" conceptId="1000060FACES_FACES_FACES_FACES_FACES"/></td>
+                <td>
+                    __________<br/>
+                    Patient Signature<br/>
+                    _________<br/>
+                    Witness signature
+                </td>
+                <td>Patient ID:</td>
+            </tr>
+        </table>
+    </td>
+</tr>
+<tr>
+    <td colspan="2">Reasons Given____________________________________________________________<br/>
+        _________________________________________________________________<br/>
+        __________________________________________________________</td>
+</tr>
+
+<tr>
+    <td colspan="2">Source of Information
+
+        <obs conceptId="1000059FACES_FACES_FACES_FACES_FACES" answerConceptId="161908AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Patient" style="checkbox" id="source_of_info1"/>
+        <obs conceptId="1000059FACES_FACES_FACES_FACES_FACES" answerConceptId="5618AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Friend/Relative" style="checkbox" id="source_of_info2"/>
+        <obs conceptId="1000059FACES_FACES_FACES_FACES_FACES" answerConceptId="5622AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Other  " style="checkbox" id="source_of_info3"/>
+
+    </td>
+</tr>
+
+<tr>
+    <td rowspan="5"><obs conceptId="161555AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="160034AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="" id="dis_Deceased" style="checkbox" /></td>
+    <td colspan="2" style="background-color: #696969; color: #ffffff;">  <b> Patient known / reported to be deceased </b>
+
+    </td>
+</tr>
+<tr>
+    <td colspan="2">
+        <table style="border-collapse: collapse; border: 1px solid black;" width="100%">
+            <tr>
+                <td>Known Date of Death <obs conceptId="1543AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="Deathdate"/></td>
+                <td>Estimated Date of Birth<obs conceptId="1544AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="estmateddate"/></td>
+            </tr>
+        </table>
+    </td>
+</tr>
+<tr><td colspan="2">
+    Cause of Death:
+    <obs id="cod" conceptId="1599AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"  answerConceptIds="139071AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,114100AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,150336AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1603AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,142928AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,142933AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,133475AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,133481AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,142924AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,142927AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,134612AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,142926AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,142917AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,5622AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="dropdown"/>
+
+</td>
+</tr>
+
+<tr>
+    <td colspan="2">
+
+        <table width="100%">
+            <tr>
+                <td rowspan="3" valign="center">Source of Information</td>
+                <td>
+
+                    <obs conceptId="1000061FACES_FACES_FACES_FACES_FACES" answerConceptId="1814AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Death certificate  " style="checkbox" id="death_Cert"/>
+
+                </td>
+                <td>
+
+                    <obs conceptId="1000061FACES_FACES_FACES_FACES_FACES" answerConceptId="1238AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Hospital records" style="checkbox" id="hospital"/>
+
+                </td>
+                <td>
+
+                    <obs conceptId="1000061FACES_FACES_FACES_FACES_FACES" answerConceptId="1707AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Autopsy report" style="checkbox" id="autospy"/>
+
+                </td>
+            </tr>
+            <tr>
+                <td colspan="4">
+
+                    <obs conceptId="1000061FACES_FACES_FACES_FACES_FACES" answerConceptId="5618AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Reported by friend / relative  " style="checkbox" id="friend_Relative"/>
+
+                </td>
+            </tr>
+            <tr>
+                <td colspan="4">
+
+                    <obs conceptId="1000061FACES_FACES_FACES_FACES_FACES" answerConceptId="5622AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Other" style="checkbox" id="other_info"/>
+
+                </td>
+
+            </tr>
+        </table>
+
+    </td>
+</tr>
+
+<tr>
+    <td colspan="2">
+        <table width="100%">
+            <tr>
+                <td rowspan="3" valign="center">Where did patient die</td>
+                <td>
+                    <obs conceptId="1541AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="1536AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Home" style="checkbox" id="died_Home"/>
+                </td>
+                <td>
+                    <obs conceptId="1541AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="1588AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Health Centre" style="checkbox" id="died_Health_Center"/>
+                </td>
+                <td>
+                    <obs conceptId="1541AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="160479AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Private Clinic" style="checkbox" id="died_Private_Clinic"/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <obs conceptId="1541AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="1589AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Hospital:_______________" style="checkbox" id="died_Hospital"/>
+                </td>
+                <td colspan="2">
+                    <obs conceptId="1541AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"  answerConceptId="5622AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Other:__________" style="checkbox" id="died_Other"/>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3">
+                    Date of admission: <obs conceptId="1640AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="doa" allowTime="false"/>
+                </td>
+            </tr>
+        </table>
+    </td>
+</tr>
+
+<tr>
+    <td rowspan="2">
+
+        <obs conceptId="161555AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="1403AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="" id="dis_Hivneg" style="checkbox"/>
+    </td>
+    <td colspan="2"  style="background-color: #696969; color: #ffffff;">
+        <b> Infant determined to be HIV-negative</b>
+    </td>
+
+</tr>
+<tr>
+    <td colspan="2">
+        <table width="100%">
+            <tr>
+                <obsGroup groupingConceptId="162085AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA">
+                    <td>
+                        Date of last negative HIV test:<obs conceptId="162078AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" allowTime="false" id="negativedate"/>
+                    </td>
+                    <td>
+                        Type of last HIV test:  <br/>
+                        <obs conceptId="162087AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="1030AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1040AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1042AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabels="DBS / PCR,Rapid antibody,ELISA"
+                             answerSeparator="&lt;br /&gt;" style="radio" id="hiv_Test_Type"/>
+
+                    </td>
+                </obsGroup>
+            </tr>
+
+        </table>
+
+    </td>
+</tr>
+
+
+<tr>
+    <td rowspan="3"><obs conceptId="161555AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="159492AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="" id="dis_Transfer" style="checkbox" /></td>
+    <td style="background-color: #696969; color: #ffffff;" colspan="2">
+        <b>Transfer of patient</b>
+    </td>
+
+</tr>
+<tr>
+    <td> New PSC Patient ID:----- </td>
+    <td> Date of transfer:<obs conceptId="160649AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="transferdate"/></td>
+</tr>
+
+<tr>
+
+    <td colspan="2">
+        Clinic that the patient will transfer to:<obs conceptId="159495AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"  id="transfer_Clinic"/>
+        District:<obs conceptId="161564AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"  id="transfer_District"/> <br/>
+        <b><i>---> Make arrangements for transfer of patient summary to the new clinic</i></b>
+    </td>
+
+</tr>
+
+<tr>
+    <td><obs conceptId="161555AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="5240AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="" id="dis_LFU" style="checkbox" /></td>
+    <td style="background-color: #696969; color: #ffffff;" colspan="2">
+
+        <b>Patient Lost to Follow-Up</b>
+    </td>
+</tr>
+
+<tr>
+    <td></td>
+    <td colspan="2"></td>
+</tr>
+
+<tr>
+    <td><obs conceptId="161555AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="5622AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="" id="dis_Other" style="checkbox" /></td>
+    <td style="background-color: #696969; color: #ffffff;" colspan="2">
+
+        <b>Other (specify in comments below)</b>
+    </td>
+</tr>
+
+<tr>
+    <td colspan="3">
+        comments__________________________________________________________________________________
+        <br/>
+        ___________________________________________________________________________________
+        <br/>
+        __________________________________________________________________________
+    </td>
+</tr>
+<tr>
+    <td colspan="3">
+        <table width="100%">
+            <tr>
+                <td align="center">
+                    Page 1 of 1
+                </td>
+                <td align="right">
+                    Discontinuation Form
+                </td>
+                <td align="center">
+                    Revised: 09-Aug-2013
+                </td>
+            </tr>
+        </table>
+
+    </td>
+
+</tr>
+
+</table>
+
+
+<completeProgram programId="dfdc6d40-2f2f-463d-ba90-cc97350441a8" />
+
+</div>
+
+<div class="ke-form-footer">
+    <submit />
+</div>
+
+</htmlform>

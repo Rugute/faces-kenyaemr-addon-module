@@ -29,7 +29,18 @@
 var YES_CONCEPT_ID = 1065;
 var NO_CONCEPT_ID = 1066;
 var ADULT =15;
+/*Entry Point Concept Ids */
 var TRANSFER_IN_CONCEPT_ID = 160563;
+var PMTCT_CONCEPT_ID = 160538;
+var VCT_CONCEPT_ID = 160539;
+var MCH_CONCEPT_ID = 160544;
+var VMMC_CONCEPT_ID = 162223;
+var OTHER_ENTRY_CONCEPT_ID = 5622;
+var TB_ENTRY_CONCEPT_ID = 160541;
+var INPATIENT_AD_CONCEPT_ID = 160536;
+var INPATIENT_CH_CONCEPT_ID = 160537;
+var OPD_ENTRY_CONCEPT_ID = 160542;
+var FAMILY_CONCEPT_ID = 1560;
 var NA_CONCEPT_ID = 1175;
 /* Marital/Civil Status Concept IDs */
 var POLYGAMOUS =159715;
@@ -224,13 +235,15 @@ jq(function() {
     getField('allergy.value').change(function(){
         if(getValue('allergy.value')== ALLERGY_TO_OTHER)
         {
-            jq('#allergy_detail').show();
+            // jq('#allergy_detail').show();
+            jq('#allergy_detail').find('input[type=text]').removeAttr('disabled');
 
         }
         else
         {
             setValue('allergy_detail.value', '');
-            jq('#allergy_detail').hide();
+            //jq('#allergy_detail').hide();
+            jq('#allergy_detail').find('input[type=text]').attr('disabled','true');
 
         }
     });
@@ -273,16 +286,196 @@ jq(function() {
         }
     });
 
+    jq('#ep_pmtct input').find('input[class=hasDatepicker]').click(function(){
+
+    });
+
     /* hide or display transfer in fields */
     jq('#ep_transfer_in input').click(OnTransferStatusChange);
     OnTransferStatusChange();
 
     /* hide or display ART History in fields */
-    jq('#art-status input').click(OnARTStatusChange);
-    OnARTStatusChange();
+    //  jq('#art-status input').click(OnARTStatusChange);
+    //  OnARTStatusChange();
 
     jq('#ms_mp input').click(setMaritalStatus);
     setMaritalStatus();
+
+    jq('#ep_pmtct input').click(function(){
+        if (getValue('ep_pmtct.value')==PMTCT_CONCEPT_ID)
+        {
+            setValue('ep_vct.value','') ;
+            setValue('ep_ipdAd.value','') ;
+            setValue('ep_ipdCh.value','') ;
+            setValue('ep_transfer_in.value','') ;
+            setValue('ep_tb.value','') ;
+            setValue('ep_mch.value','') ;
+            setValue('ep_other.value','') ;
+            setValue('ep_opd.value','') ;
+            setValue('ep_fm.value','') ;
+            setValue('ep_vmmc.value','') ;
+        }
+    });
+
+    jq('#ep_vct input').click(function(){
+        if (getValue('ep_vct.value')==VCT_CONCEPT_ID)
+        {
+            setValue('ep_pmtct.value','') ;
+            setValue('ep_ipdAd.value','') ;
+            setValue('ep_ipdCh.value','') ;
+            setValue('ep_transfer_in.value','') ;
+            setValue('ep_tb.value','') ;
+            setValue('ep_mch.value','') ;
+            setValue('ep_other.value','') ;
+            setValue('ep_opd.value','') ;
+            setValue('ep_fm.value','') ;
+            setValue('ep_vmmc.value','') ;
+        }
+    });
+
+    jq('#ep_ipdAd input').click(function(){
+        if (getValue('ep_ipdAd.value')==INPATIENT_AD_CONCEPT_ID)
+        {
+            setValue('ep_vct.value','') ;
+            setValue('ep_pmtct.value','') ;
+            setValue('ep_ipdCh.value','') ;
+            setValue('ep_transfer_in.value','') ;
+            setValue('ep_tb.value','') ;
+            setValue('ep_mch.value','') ;
+            setValue('ep_other.value','') ;
+            setValue('ep_opd.value','') ;
+            setValue('ep_fm.value','') ;
+            setValue('ep_vmmc.value','') ;
+        }
+    });
+
+    jq('#ep_ipdCh input').click(function(){
+        if (getValue('ep_ipdCh.value')==INPATIENT_CH_CONCEPT_ID)
+        {
+            setValue('ep_vct.value','') ;
+            setValue('ep_ipdAd.value','') ;
+            setValue('ep_pmtct.value','') ;
+            setValue('ep_transfer_in.value','') ;
+            setValue('ep_tb.value','') ;
+            setValue('ep_mch.value','') ;
+            setValue('ep_other.value','') ;
+            setValue('ep_opd.value','') ;
+            setValue('ep_fm.value','') ;
+            setValue('ep_vmmc.value','') ;
+        }
+    });
+
+    jq('#ep_transfer_in input').click(function(){
+        if (getValue('ep_transfer_in.value')==TRANSFER_IN_CONCEPT_ID)
+        {
+            setValue('ep_vct.value','') ;
+            setValue('ep_ipdAd.value','') ;
+            setValue('ep_ipdCh.value','') ;
+            setValue('ep_pmtct.value','') ;
+            setValue('ep_tb.value','') ;
+            setValue('ep_mch.value','') ;
+            setValue('ep_other.value','') ;
+            setValue('ep_opd.value','') ;
+            setValue('ep_fm.value','') ;
+            setValue('ep_vmmc.value','') ;
+        }
+    });
+
+    jq('#ep_tb input').click(function(){
+        if (getValue('ep_tb.value')==TB_ENTRY_CONCEPT_ID)
+        {
+            setValue('ep_vct.value','') ;
+            setValue('ep_ipdAd.value','') ;
+            setValue('ep_ipdCh.value','') ;
+            setValue('ep_transfer_in.value','') ;
+            setValue('ep_pmtct.value','') ;
+            setValue('ep_mch.value','') ;
+            setValue('ep_other.value','') ;
+            setValue('ep_opd.value','') ;
+            setValue('ep_fm.value','') ;
+            setValue('ep_vmmc.value','') ;
+        }
+    });
+
+    jq('#ep_mch input').click(function(){
+        if (getValue('ep_mch.value')==MCH_CONCEPT_ID)
+        {
+            setValue('ep_vct.value','') ;
+            setValue('ep_ipdAd.value','') ;
+            setValue('ep_ipdCh.value','') ;
+            setValue('ep_transfer_in.value','') ;
+            setValue('ep_tb.value','') ;
+            setValue('ep_pmtct.value','') ;
+            setValue('ep_other.value','') ;
+            setValue('ep_opd.value','') ;
+            setValue('ep_fm.value','') ;
+            setValue('ep_vmmc.value','') ;
+        }
+    });
+
+    jq('#ep_other input').click(function(){
+        if (getValue('ep_other.value')==OTHER_ENTRY_CONCEPT_ID)
+        {
+            setValue('ep_vct.value','') ;
+            setValue('ep_ipdAd.value','') ;
+            setValue('ep_ipdCh.value','') ;
+            setValue('ep_transfer_in.value','') ;
+            setValue('ep_tb.value','') ;
+            setValue('ep_mch.value','') ;
+            setValue('ep_pmtct.value','') ;
+            setValue('ep_opd.value','') ;
+            setValue('ep_fm.value','') ;
+            setValue('ep_vmmc.value','') ;
+        }
+    });
+
+    jq('#ep_opd input').click(function(){
+        if (getValue('ep_opd.value')==OPD_ENTRY_CONCEPT_ID)
+        {
+            setValue('ep_vct.value','') ;
+            setValue('ep_ipdAd.value','') ;
+            setValue('ep_ipdCh.value','') ;
+            setValue('ep_transfer_in.value','') ;
+            setValue('ep_tb.value','') ;
+            setValue('ep_mch.value','') ;
+            setValue('ep_other.value','') ;
+            setValue('ep_pmtct.value','') ;
+            setValue('ep_fm.value','') ;
+            setValue('ep_vmmc.value','') ;
+        }
+    });
+
+    jq('#ep_fm input').click(function(){
+        if (getValue('ep_fm.value')==FAMILY_CONCEPT_ID)
+        {
+            setValue('ep_vct.value','') ;
+            setValue('ep_ipdAd.value','') ;
+            setValue('ep_ipdCh.value','') ;
+            setValue('ep_transfer_in.value','') ;
+            setValue('ep_tb.value','') ;
+            setValue('ep_mch.value','') ;
+            setValue('ep_other.value','') ;
+            setValue('ep_opd.value','') ;
+            setValue('ep_pmtct.value','') ;
+            setValue('ep_vmmc.value','') ;
+        }
+    });
+
+    jq('#ep_vmmc input').click(function(){
+        if (getValue('ep_vmmc.value')==VMMC_CONCEPT_ID)
+        {
+            setValue('ep_vct.value','') ;
+            setValue('ep_ipdAd.value','') ;
+            setValue('ep_ipdCh.value','') ;
+            setValue('ep_transfer_in.value','') ;
+            setValue('ep_tb.value','') ;
+            setValue('ep_mch.value','') ;
+            setValue('ep_other.value','') ;
+            setValue('ep_opd.value','') ;
+            setValue('ep_pmtct.value','') ;
+            setValue('ep_fm.value','') ;
+        }
+    });
 
 });
 </script>
@@ -299,100 +492,100 @@ jq(function() {
 </div>
 
 <div class="ke-form-content">
-    <table class="moh257" align="center">
-        <tbody>
-        <tr>
-            <td style="background-color: #696969; color: #ffffff;">PATIENT PROFILE</td>
-        </tr>
-        <tr>
-            <td>
-                <table>
-                    <tr>
-                        <td>Unique Patient Number:</td>
-                        <td><lookup class="value" complexExpression="#foreach( $patId in $patientIdentifiers.get('Unique Patient Number') ) $patId #end "/></td>
-                    </tr>
-                    <tr>
-                        <td>Patient's Names: <br/><lookup class="value" expression="patient.personName"/></td>
-                        <td>Date of Birth <lookup class="value" id="dob" expression="patient.birthdate"/>
-                            Age: <lookup class="value" id="age" expression="patient.age"/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="2">Sex <lookup class="value" expression="patient.gender" /></td>
-                        <!--  <td>Postal Address <obs conceptId="6499"/></td> -->
-                    </tr>
+<table class="moh257" align="center">
+<tbody>
+<tr>
+    <td style="background-color: #696969; color: #ffffff;">PATIENT PROFILE</td>
+</tr>
+<tr>
+    <td>
+        <table>
+            <tr>
+                <td>Unique Patient Number:</td>
+                <td><lookup class="value" complexExpression="#foreach( $patId in $patientIdentifiers.get('Unique Patient Number') ) $patId #end "/></td>
+            </tr>
+            <tr>
+                <td>Patient's Names: <br/><lookup class="value" expression="patient.personName"/></td>
+                <td>Date of Birth <lookup class="value" id="dob" expression="patient.birthdate"/>
+                    Age: <lookup class="value" id="age" expression="patient.age"/>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">Sex <lookup class="value" expression="patient.gender" /></td>
+                <!--  <td>Postal Address <obs conceptId="6499"/></td> -->
+            </tr>
 
-                    <tr>
-                        <td colspan="2">
-                            <table>
-                                <tr>
-                                    <td rowspan="2">Marital Status</td>
-                                    <td><obs id="ms_mp" conceptId="1054AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="159715AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Married Polygamous" style="checkbox"/></td>
-                                    <td><obs id="ms_di" conceptId="1054AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="1058AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Divorced" style="checkbox"/></td>
-                                    <td><obs id="ms_co" conceptId="1054AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="1060AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Cohabiting" style="checkbox"/></td>
-                                </tr>
-                                <tr>
-                                    <td><obs id="ms_mm" conceptId="1054AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="5555AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Married Monogamous" style="checkbox"/></td>
-                                    <td><obs id="ms_wi" conceptId="1054AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="1059AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Widowed" style="checkbox"/></td>
-                                    <td><obs id="ms_si" conceptId="1054AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="1057AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Single" style="checkbox"/></td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="2">Treatment Supporter</td>
-                    </tr>
-                    <tr>
-                        <td>Name:<obs conceptId="160638AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/> </td>
-                        <td>Relationship:<obs conceptId="160640AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-                                              style="dropdown"/> </td>
+            <tr>
+                <td colspan="2">
+                    <table>
+                        <tr>
+                            <td rowspan="2">Marital Status</td>
+                            <td><obs id="ms_mp" conceptId="1054AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="159715AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Married Polygamous" style="checkbox"/></td>
+                            <td><obs id="ms_di" conceptId="1054AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="1058AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Divorced" style="checkbox"/></td>
+                            <td><obs id="ms_co" conceptId="1054AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="1060AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Cohabiting" style="checkbox"/></td>
+                        </tr>
+                        <tr>
+                            <td><obs id="ms_mm" conceptId="1054AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="5555AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Married Monogamous" style="checkbox"/></td>
+                            <td><obs id="ms_wi" conceptId="1054AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="1059AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Widowed" style="checkbox"/></td>
+                            <td><obs id="ms_si" conceptId="1054AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="1057AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Single" style="checkbox"/></td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">Treatment Supporter</td>
+            </tr>
+            <tr>
+                <td>Name:<obs conceptId="160638AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/> </td>
+                <td>Relationship:<obs conceptId="160640AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                      style="dropdown"/> </td>
 
-                    </tr>
-                    <tr>
-                        <td>Postal Address:<obs conceptId="160641AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/> </td>
-                        <td>Tel No:<obs conceptId="160642AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" /> </td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-        <tr>
-            <td style="background-color: #696969; color: #ffffff;">Patient Source</td>
-        </tr>
-        <tr>
-            <td>
-                <table>
-                    <tr>
-                        <td rowspan="3">Entry Point</td>
+            </tr>
+            <tr>
+                <td>Postal Address:<obs conceptId="160641AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/> </td>
+                <td>Tel No:<obs conceptId="160642AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" /> </td>
+            </tr>
+        </table>
+    </td>
+</tr>
+<tr>
+    <td style="background-color: #696969; color: #ffffff;">Patient Source</td>
+</tr>
+<tr>
+    <td>
+        <table>
+            <tr>
+                <td rowspan="3">Entry Point</td>
 
-                        <td><obs  id="ep_pmtct" conceptId="160540AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="160538AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="PMTCT" style="checkbox"/></td>
-                        <td><obs  id="ep_ipdAd" conceptId="160540AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="160536AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="IPD-Ad" style="checkbox"/></td>
-                        <td><obs  id="ep_tb" conceptId="160540AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="160541AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="TB Clinic" style="checkbox"/></td>
-                        <td><obs conceptId="160540AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="160542AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="OPD" style="checkbox"/></td>
+                <td><obs  id="ep_pmtct" conceptId="160540AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="160538AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="PMTCT" style="checkbox"/></td>
+                <td><obs  id="ep_ipdAd" conceptId="160540AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="160536AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="IPD-Ad" style="checkbox"/></td>
+                <td><obs  id="ep_tb" conceptId="160540AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="160541AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="TB Clinic" style="checkbox"/></td>
+                <td><obs  id="ep_opd" conceptId="160540AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="160542AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="OPD" style="checkbox"/></td>
 
-                    </tr>
-                    <tr>
+            </tr>
+            <tr>
 
-                        <td><obs id="ep_vct" conceptId="160540AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="160539AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="VCT" style="checkbox"/></td>
-                        <td><obs id="ep_ipdCh" conceptId="160540AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="160537AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="IPD-Ch" style="checkbox"/></td>
-                        <td><obs id="ep_mch" conceptId="160540AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="160544AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="MCH-Child" style="checkbox"/></td>
-                        <td>VMMC [TBD- Waiting CIEL concept]<!--<obs  conceptId="160540AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="1828" answerLabel="VMMC" style="checkbox"/>--></td>
+                <td><obs id="ep_vct" conceptId="160540AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="160539AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="VCT" style="checkbox"/></td>
+                <td><obs id="ep_ipdCh" conceptId="160540AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="160537AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="IPD-Ch" style="checkbox"/></td>
+                <td><obs id="ep_mch" conceptId="160540AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="160544AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="MCH-Child" style="checkbox"/></td>
+                <td><obs id="ep_vmmc" conceptId="160540AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="162223AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="VMMC" style="checkbox"/></td>
 
-                    </tr>
-                    <tr>
+            </tr>
+            <tr>
 
-                        <td><obs conceptId="160540AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="1560AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Family Member" style="checkbox"/></td>
-                        <td><obs id="ep_other" conceptId="160540AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="5622AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Other, (Specify e.g. (STI)" style="checkbox"/></td>
-                        <td colspan="2">
-                            <obs id="ep_transfer_in" conceptId="160540AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-                                 answerConceptId="160563AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-                                 answerLabel="Transfer in from Other HIV Clinic"
-                                 style="checkbox"/>
-                        </td>
+                <td><obs id="ep_fm" conceptId="160540AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="1560AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Family Member" style="checkbox"/></td>
+                <td><obs id="ep_other" conceptId="160540AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="5622AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="Other, (Specify e.g. (STI)" style="checkbox"/></td>
+                <td colspan="2">
+                    <obs id="ep_transfer_in" conceptId="160540AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                         answerConceptId="160563AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                         answerLabel="Transfer in from Other HIV Clinic"
+                         style="checkbox"/>
+                </td>
 
-                    </tr>
-                    <tr>
-                        <td> Transfer In:</td>
-                        <td colspan="3">
+            </tr>
+            <tr>
+                <td> Transfer In:</td>
+                <td colspan="3">
 									<span id="transfer_details">
 										<table>
                                             <tr>
@@ -409,57 +602,93 @@ jq(function() {
                                             </tr>
                                         </table>
 									</span>
-                        </td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-        <tr>
-            <td style="background-color: #696969; color: #ffffff;">ART History</td>
-        </tr>
-        <tr>
-            <td>
-                Previously on ARVs (PMTCT &amp; PEP included)? <obs id="art-status" conceptId="160533AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="yes_no"/>
-                <br/>
-                <table id="art-History">
-                    <tr>
-                        <td>If "Yes" then Purpose</td>
-                        <td>List Drug Names &amp; Dates Last Used</td>
-                    </tr>
-                    <repeat>
-                        <template>
-                            <obsgroup groupingConceptId="160741AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA">
-                                <tr>
+                </td>
+            </tr>
+        </table>
+    </td>
+</tr>
+<tr>
+    <td style="background-color: #696969; color: #ffffff;">ART History</td>
+</tr>
+<tr>
+    <td>
+        Previously on ARVs (PMTCT &amp; PEP included)? <obs id="art-status" conceptId="160533AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="yes_no"/>
+        <br/>
+        <table id="art-History">
+            <tr>
+                <td>If "Yes" then Purpose</td>
+                <td>List Drug Names &amp; Dates Last Used</td>
+            </tr>
+            <repeat>
+                <template>
+                    <obsgroup groupingConceptId="160741AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA">
+                        <tr>
 
-                                    <td><obs conceptId="1148AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="PMTCT" style="checkbox"/>
-                                        <obs conceptId="1691AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" labelText="PEP" style="checkbox"/>
-                                        <obs conceptId="1181AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"    answerConceptId="1185AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="HAART" style="checkbox"/>
-                                    </td>
-                                    <td><obs conceptId="1088AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"  answerSeparator="&lt;br /&gt;" style="dropdown" dateLabel=""/></td>
+                            <td><obs conceptId="1148AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="PMTCT" style="checkbox"/>
+                                <obs conceptId="1691AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" labelText="PEP" style="checkbox"/>
+                                <obs conceptId="1181AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"    answerConceptId="1185AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerLabel="HAART" style="checkbox"/>
+                            </td>
+                            <td><obs conceptId="1088AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                     answerConceptIds="792AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,794AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,630AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,84309AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,74807AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,70056AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,80487AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,80586AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,75523AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,78643AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,84795AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,77995AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,160104AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,160105AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,86663AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,75628AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,79040AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,83412AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,71647AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1652AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,161363AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,161364AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,161361AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,103166AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,104565AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162201AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,817AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162199AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,162200AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                     answerLabels="D4T/3TC/NVP,
+															 LPV/R,
+															 AZT/3TC,
+															 D4T,
+															 DDI,
+															 ABC,
+															 NELFINAVIR,
+															 NVP,
+															 EFV,
+															 3TC,
+															 TDF,
+															 IDV,
+															 AZT/3TC/EFV,
+															 D4T/3TC/EFV,
+															 AZT,
+															 FTC,
+															 LPV,
+															 RTV,
+															 ATV,
+															 3TC/NVP/AZT,
+															 3TC/D4T,
+															 TDF/3TC,
+															 EDF/3TC/EFV,
+															 ABC/3TC,
+															 EFV/FTC/TDF,
+															 3TC/LPV/r/TDF,
+															 ABC/3TC/AZT,
+															 ABC/NVP/3TC,
+															 3TC/ABC/LPV/r"
+                                     answerSeparator="&lt;br /&gt;" style="dropdown" dateLabel=""/></td>
 
-                                </tr>
-                            </obsgroup>
-                        </template>
-                        <render n="1" concept=" " />
-                        <render n="2" concept=" " />
-                        <render n="3" concept=" " />
-                        <render n="4" concept=" " />
-                        <render n="5" concept=" " />
-                    </repeat>
+                        </tr>
+                    </obsgroup>
+                </template>
+                <render n="1" concept=" " />
+                <render n="2" concept=" " />
+                <render n="3" concept=" " />
+                <render n="4" concept=" " />
+                <render n="5" concept=" " />
+            </repeat>
 
 
-                </table>
-                <table>
-                    <tr>
-                        <td><br/>Date Confirmed HIV Positive</td>
-                        <td><br/><obs id="date_confirmed_pos"  conceptId="160554AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/><span id="date_confirmed_error"></span></td>
-                        <td><br/>Where? <obs conceptId="160632AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/></td>
+        </table>
+        <table>
+            <tr>
+                <td><br/>Date Confirmed HIV Positive</td>
+                <td><br/><obs id="date_confirmed_pos"  conceptId="160554AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/><span id="date_confirmed_error"></span></td>
+                <td><br/>Where?
+                    <obsgroup groupingConceptId="161559AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA">
+                        <obs conceptId="160632AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+                    </obsgroup>
+                </td>
 
-                    </tr>
-                    <tr>
-                        <td>Date Enrolled in HIV Care</td>
-                        <td><obs id="date_Enrolled" conceptId="160555AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/></td>
-                        <td>WHO Stage
+
+            </tr>
+            <tr>
+                <td>Date Enrolled in HIV Care</td>
+                <td><obs id="date_Enrolled" conceptId="160555AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/></td>
+                <td>WHO Stage
 
 									<span id="initialWhoStageAd"><obs conceptId="160553AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
                                                                       answerConceptIds="1204AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1205AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1206AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1207AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1067AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/></span>
@@ -470,29 +699,29 @@ jq(function() {
                                                                       answerConceptIds="1220AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1221AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1222AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1223AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1067AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/></span>
 
 
-                        </td>
+                </td>
 
-                    </tr>
-                    <tr>
-                        <td>Any Drug Allegies?</td>
-                        <td colspan="2">
-                            <obsgroup groupingConceptId="160647AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA">
-                                <obs id="allergy" conceptId="160643AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-                                     answerConceptIds="162170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,81724AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,5622AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-                                     answerLabels="Allergey to Sulfa,Allergy to penicillin,Allergy to other medicine "
-                                        /> <br/>
+            </tr>
+            <tr>
+                <td>Any Drug Allegies?</td>
+                <td colspan="2">
+                    <obsgroup groupingConceptId="160647AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA">
+                        <obs id="allergy" conceptId="160643AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             answerConceptIds="162170AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,81724AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,5622AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                             answerLabels="Allergey to Sulfa,Allergy to penicillin,Allergy to other medicine "
+                                /> <br/>
 
-                                <obs id="allergy_detail" conceptId="160632AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
-                            </obsgroup></td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-        <tr>
-            <td style="background-color: #696969; color: #ffffff;">HIV Status of Family Members -> Use family information table form</td>
-        </tr>
-        </tbody>
-    </table>
+                        <obs id="allergy_detail" conceptId="160632AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/>
+                    </obsgroup></td>
+            </tr>
+        </table>
+    </td>
+</tr>
+<tr>
+    <td style="background-color: #696969; color: #ffffff;">HIV Status of Family Members -> Use family information table form</td>
+</tr>
+</tbody>
+</table>
 </div>
 <enrollInProgram programId="dfdc6d40-2f2f-463d-ba90-cc97350441a8"/>
 <div class="ke-form-footer">

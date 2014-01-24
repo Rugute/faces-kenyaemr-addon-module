@@ -34,24 +34,61 @@
                 <ref bean="kenyaemr.app.chart" />
             </set>
         </property>
-        <property name="icon" value="keaddonexample:forms/example.png" />
+        <property name="icon" value="keaddonexample:forms/generic.png" />
         <property name="htmlform" value="keaddonexample:adherence.html" />
     </bean>
 
-    <bean id="keaddonexample.form.moh257ArvTherapy" class="org.openmrs.module.kenyacore.form.FormDescriptor">
-        <property name="targetUuid" value="d25da84f-46ff-4349-ac7b-09d6e0622c98" />
+
+    <bean id="keaddonexample.form.counselling" class="org.openmrs.module.kenyacore.form.FormDescriptor">
+        <property name="targetUuid" value="8ced7cda-b13b-43ea-ada2-4c47fb94c751" />
         <property name="apps">
             <set>
                 <ref bean="kenyaemr.app.clinician" />
                 <ref bean="kenyaemr.app.chart" />
             </set>
         </property>
-        <property name="icon" value="keaddonexample:forms/example.png" />
-        <property name="htmlform" value="keaddonexample:moh257ArvTherapy.html" />
+        <property name="icon" value="keaddonexample:forms/generic.png" />
+        <property name="htmlform" value="keaddonexample:counselling.html" />
     </bean>
 
-    <bean id="keaddonexample.form.moh257Enrollment" class="org.openmrs.module.kenyacore.form.FormDescriptor">
-        <property name="targetUuid" value="f432f3a8-4350-4f26-865b-b8e74c5a55e3" />
+    <bean id="keaddonexample.form.discontinuation" class="org.openmrs.module.kenyacore.form.FormDescriptor">
+        <property name="targetUuid" value="e4fce01e-3bbe-40c1-9578-30935d43b335" />
+        <property name="apps">
+            <set>
+                <ref bean="kenyaemr.app.clinician" />
+                <ref bean="kenyaemr.app.chart" />
+            </set>
+        </property>
+        <property name="icon" value="keaddonexample:forms/generic.png" />
+        <property name="htmlform" value="keaddonexample:discontinuation.html" />
+    </bean>
+
+    <bean id="keaddonexample.form.heiEnrollment" class="org.openmrs.module.kenyacore.form.FormDescriptor">
+        <property name="targetUuid" value="a938c14d-1ca8-456e-b992-f44b37a55ae2" />
+        <property name="apps">
+            <set>
+                <ref bean="kenyaemr.app.clinician" />
+                <ref bean="kenyaemr.app.chart" />
+            </set>
+        </property>
+        <property name="icon" value="keaddonexample:forms/generic.png" />
+        <property name="htmlform" value="keaddonexample:heiEnrollment.html" />
+    </bean>
+
+    <bean id="keaddonexample.form.heiFollowup" class="org.openmrs.module.kenyacore.form.FormDescriptor">
+        <property name="targetUuid" value="38b3108e-624c-4dc7-89de-0903679c53e2" />
+        <property name="apps">
+            <set>
+                <ref bean="kenyaemr.app.clinician" />
+                <ref bean="kenyaemr.app.chart" />
+            </set>
+        </property>
+        <property name="icon" value="keaddonexample:forms/generic.png" />
+        <property name="htmlform" value="keaddonexample:heiFollowup.html" />
+    </bean>
+
+    <bean id="keaddonexample.form.labInvestigation" class="org.openmrs.module.kenyacore.form.FormDescriptor">
+        <property name="targetUuid" value="82cffa17-55db-4fb9-ab88-983ae26979d8" />
         <property name="apps">
             <set>
                 <ref bean="kenyaemr.app.clinician" />
@@ -59,7 +96,19 @@
             </set>
         </property>
         <property name="icon" value="keaddonexample:forms/example.png" />
-        <property name="htmlform" value="keaddonexample:moh257Enrollment.html" />
+        <property name="htmlform" value="keaddonexample:labInvestigation.html" />
+    </bean>
+
+    <bean id="keaddonexample.form.tb_icf" class="org.openmrs.module.kenyacore.form.FormDescriptor">
+        <property name="targetUuid" value="d292bba8-f559-4948-866e-8b502eb12c68" />
+        <property name="apps">
+            <set>
+                <ref bean="kenyaemr.app.clinician" />
+                <ref bean="kenyaemr.app.chart" />
+            </set>
+        </property>
+        <property name="icon" value="keaddonexample:forms/generic.png" />
+        <property name="htmlform" value="keaddonexample:tb_icf.html" />
     </bean>
 
 	<bean id="keaddonexample.config.form" class="org.openmrs.module.kenyacore.form.FormConfiguration">
@@ -68,8 +117,12 @@
 			<set>
 				<ref bean="keaddonexample.form.example" />
                 <ref bean="keaddonexample.form.adherence" />
-                <ref bean="keaddonexample.form.moh257ArvTherapy" />
-                <ref bean="keaddonexample.form.moh257Enrollment" />
+                <ref bean="keaddonexample.form.counselling" />
+                <ref bean="keaddonexample.form.discontinuation" />
+                <ref bean="keaddonexample.form.heiEnrollment" />
+                <ref bean="keaddonexample.form.heiFollowup" />
+                <ref bean="keaddonexample.form.labInvestigation" />
+                <ref bean="keaddonexample.form.tb_icf" />
 			</set>
 		</property>
 
@@ -87,8 +140,12 @@
 			<set>
 				<ref bean="kenyaemr.common.form.progressNote" />
                 <ref bean="kenyaemr.common.form.clinicalEncounter" />
+                <ref bean="kenyaemr.common.form.labResults" />
+                <ref bean="kenyaemr.common.form.tbScreening" />
                 <ref bean="kenyaemr.common.form.otherMedications" />
                 <ref bean="kenyaemr.hiv.form.clinicalEncounterAddendum" />
+                <ref bean="keaddonexample.form.example" />
+
 			</set>
 		</property>
 	</bean>
