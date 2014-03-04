@@ -38,6 +38,18 @@
         <property name="htmlform" value="keaddonexample:adherence.html" />
     </bean>
 
+    <bean id="keaddonexample.form.congenital" class="org.openmrs.module.kenyacore.form.FormDescriptor">
+        <property name="targetUuid" value="42a1122e-27bc-470a-af94-bac85d8a229f" />
+        <property name="apps">
+            <set>
+                <ref bean="kenyaemr.app.clinician" />
+                <ref bean="kenyaemr.app.chart" />
+            </set>
+        </property>
+        <property name="icon" value="keaddonexample:forms/generic.png" />
+        <property name="htmlform" value="keaddonexample:congenitalForm.html" />
+    </bean>
+
 
     <bean id="keaddonexample.form.counselling" class="org.openmrs.module.kenyacore.form.FormDescriptor">
         <property name="targetUuid" value="8ced7cda-b13b-43ea-ada2-4c47fb94c751" />
@@ -118,6 +130,7 @@
 				<ref bean="keaddonexample.form.example" />
                 <ref bean="keaddonexample.form.adherence" />
                 <ref bean="keaddonexample.form.counselling" />
+                <ref bean="keaddonexample.form.congenital" />
                 <ref bean="keaddonexample.form.discontinuation" />
                 <ref bean="keaddonexample.form.heiEnrollment" />
                 <ref bean="keaddonexample.form.heiFollowup" />

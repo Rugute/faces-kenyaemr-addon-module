@@ -10,25 +10,14 @@
   ~ under the License.
   ~
   ~ Copyright (C) OpenMRS, LLC.  All Rights Reserved.
+-->
 
-  To be dropped
-  <tr>
-    <td colspan="2">
-        Patient Unique No:<lookup class="value" complexExpression="#foreach( $patId in $patientIdentifiers.get('Faces ID') ) $patId #end "/>
-        Patient's Names: <br/><lookup class="value" expression="patient.personName"/>
-        <br/>
-
-        Date of Birth: <lookup class="value" id="dob" expression="patient.birthdate"/>
-        Age: <lookup class="value" id="age" expression="patient.age"/>
-    </td>
-</tr>
-  -->
 <htmlform>
 <style type="text/css">
     table.tbICF {
         border-collapse: collapse;
-        /*background-color: #F3F9FF;   */
-    }
+    //background-color: #F3F9FF;
+        }
     table.tbICF > tbody > tr > td, table.tbICF > tbody > tr > th {
         border: 1px solid black;
         vertical-align: baseline;
@@ -36,7 +25,6 @@
         text-align: left;
     }
 </style>
-
 <script type="text/javascript">
     var ADULT=15;
     var NIGHT_SWEATS_CONCEPT=133027;
@@ -71,16 +59,22 @@
         if(age &lt; ADULT)
         {
             jq('#q3_ad').hide();
+            jq('#q3_ad_a').hide();
             jq('#q4_ad').hide();
-            setValue('q4.value', NIGHT_SWEATS_CONCEPT);
+            jq('#q4_ad_a').hide();
+            jq('#ipt_q2_ad').hide();
+            //setValue('q4_ad.value', NIGHT_SWEATS_CONCEPT);
 
         }
         else
         {
 
             jq('#q3_ch').hide();
+            jq('#q3_ch_a').hide();
             jq('#q4_ch').hide();
-            setValue('q4.value', TB_CONTACT_CONCEPT);
+            jq('#q4_ch_a').hide();
+            jq('#ipt_q2_ch').hide();
+            // setValue('q4_ch.value', TB_CONTACT_CONCEPT);
         }
     }
     jq(function() {
@@ -92,47 +86,66 @@
         var valChangedToDateFormat = new Date(valbirthdate).getTime();
 
         beforeSubmit.push(function() {
-            var valonform = getValue('tbrxdate.value');
+            var valonform = getValue('ipt_Rx_date.value');
             var valChangedToDateFormatOnForm=new Date(valonform).getTime();
 
             //tb rx date should be later than date of birth
             if (valChangedToDateFormatOnForm &lt; valChangedToDateFormat) {
-                getField('tbrxdate.error').html('TB Rx date, should not be earlier than date of birth').show();
+                getField('ipt_Rx_date.error').html('IPT Rx date, should not be earlier than date of birth').show();
                 return false;
             }
             //tb rx date cannot be same as birth date
             if (valChangedToDateFormatOnForm  == valChangedToDateFormat) {
-                getField('tbrxdate.error').html('TB Rx date, should not be same as  date of birth').show();
+                getField('ipt_Rx_date.error').html('IPT Rx date, should not be same as  date of birth').show();
                 return false;
             }
+
+            var valonform = getValue('completed.value');
+            var valChangedToDateFormatOnForm=new Date(valonform).getTime();
+
+            if (valChangedToDateFormatOnForm  == valChangedToDateFormat) {
+                getField('completed.error').html('Date Completed IPT, should not be same as  date of birth').show();
+                return false;
+            }
+
+            var valonform = getValue('transferred.value');
+            var valChangedToDateFormatOnForm=new Date(valonform).getTime();
+
+            if (valChangedToDateFormatOnForm  == valChangedToDateFormat) {
+                getField('transferred.error').html('Date Transferred, should not be same as  date of birth').show();
+                return false;
+            }
+
+            var valonform = getValue('discontinued.value');
+            var valChangedToDateFormatOnForm=new Date(valonform).getTime();
+
+            if (valChangedToDateFormatOnForm  == valChangedToDateFormat) {
+                getField('discontinued.error').html('Date Discontined, should not be same as  date of birth').show();
+                return false;
+            }
+
             return true;
         });
     });
 </script>
-
-<!-- Should always be the current user -->
 <div style="display:none">
-    <encounterProvider default="currentUser" />
+    <encounterProvider default="1cc7dc79-ad09-4897-8a1d-0b3d3226e9ee" />
 </div>
-
 <div class="ke-form-header">
-    <table width="100%">
+    <table style="width: 100%">
         <tr>
-            <td>Date: <encounterDate id="encounter-date" showTime="true" /></td>
-            <td>Location: <encounterLocation default="GlobalProperty:kenyaemr.defaultLocation" type="autocomplete" /></td>
+            <td>Date: <encounterDate id="encounter-date" showTime="false"/></td>
+            <td>Location: <encounterLocation id="site" default="GlobalProperty:kenyaemr.defaultLocation"/></td>
         </tr>
-
     </table>
-</div>
 
+</div>
 <div class="ke-form-content">
-<table class="tbICF" align="center">
+<table  align="center"  class="tbICF">
 <tr style="border: 0px;">
     <td colspan="2" style="text-align: center">Ministry of Public Health and Sanitation</td>
-
 </tr>
 <tr>
-
     <td colspan="2" style="text-align: center">ICF / IPT CARD</td>
 </tr>
 
@@ -140,63 +153,51 @@
     <td colspan="2"><b> TB Intensified Case Finding</b></td>
 </tr>
 <tr>
-    <obsgroup groupingConceptId="1727AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA">
-					<span style="display: none">
-						<obs conceptId="1728AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="159799AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="checkbox" defaultValue="159799"/>
-					</span>
-        <td>
-            1. Cough For any duration <b>Y/N</b>  [try this 143264 - consult further]
-        </td>
-        <td><obs conceptId="1729AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" labelText=" " answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="radio" answerLabels="Yes,No" /></td>
-    </obsgroup>
+    <td>
+        1. Cough For any duration <b>Y/N</b>
+    </td>
+    <td>
+        <obs conceptId="143264AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" labelText=" " answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="radio" answerLabels="Yes,No" />
+    </td>
 </tr>
-
 
 <tr>
-    <obsgroup groupingConceptId="1727AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA">
-					<span style="display: none">
-						<obs conceptId="1728AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="1494AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="checkbox" defaultValue="1494"/>
-					</span>
-        <td>
-            2. Fever <b>Y/N</b>      [try 140238]
-        </td>
-        <td><obs conceptId="1729AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" labelText=" " answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="radio" answerLabels="Yes,No" /></td>
-    </obsgroup>
+    <td>
+        2. Fever <b>Y/N</b>
+    </td>
+    <td><obs conceptId="140238AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" labelText=" " answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="radio" answerLabels="Yes,No" /></td>
 </tr>
 <tr>
-    <obsgroup groupingConceptId="1727AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA">
-					<span style="display: none">
-						<obs conceptId="1728AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="832AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="checkbox" defaultValue="832"/>
-					</span>
-        <td>
-            <span id="q3_ch">3. Weight loss or Poor weight gain <b>Y/N </b></span>
+    <td>
+        <span id="q3_ch">3. Weight loss or Poor weight gain <b>Y/N </b></span>
 
-            <span id="q3_ad">3. Noticeable <b>weight loss Y/N</b> [try 1858]</span>
-
-
-        </td>
-        <td><obs conceptId="1729AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" labelText=" " answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="radio" answerLabels="Yes,No" /></td>
-    </obsgroup>
+        <span id="q3_ad">3. Noticeable <b>weight loss Y/N</b> </span>
+    </td>
+    <td>
+                <span id="q3_ch_a">
+                    <obs conceptId="5050AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" labelText=" " answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="radio" answerLabels="Yes,No" />
+                </span>
+                <span id="q3_ad_a">
+                    <obs conceptId="832AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" labelText=" " answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="radio" answerLabels="Yes,No" />
+                </span>
+    </td>
 </tr>
 <tr>
-    <obsgroup groupingConceptId="1727AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA">
-                        <span style="display: none">
-                            <obs id="q4" conceptId="1728AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-                                 answerConceptIds="124068AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,133027AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"  />
-					    </span>
-        <td>
-            <span id="q4_ad"> 4. Night sweats <b>Y/N</b>    [try 133027]</span>
+    <td>
+        <span id="q4_ad"> 4. Night sweats <b>Y/N</b>    </span>
+        <span id="q4_ch">4. Contact with a TB Case <b>Y/N</b></span>
+    </td>
+    <td>
+                <span id="q4_ad_a">
+                    <obs conceptId="133027AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" labelText=" " answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="radio" answerLabels="Yes,No" />
+                </span>
 
-            <span id="q4_ch">4. Contact with a TB Case <b>Y/N</b></span>
+                <span id="q4_ch_a">
+                    <obs conceptId="124068AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" labelText=" " answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="radio" answerLabels="Yes,No" />
+                </span>
 
-        </td>
-        <td>
-            <obs conceptId="1729AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" labelText=" " answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="radio" answerLabels="Yes,No" />
-        </td>
-    </obsgroup>
-
+    </td>
 </tr>
-
 <tr>
     <td colspan="2">
         <b>(Key: Y-Yes; N – No) </b> <br/>
@@ -227,6 +228,7 @@
              answerLabels="Normal (N),Suggestive (S)" style="radio"/>
     </td>
 </tr>
+
 <tr>
     <td>
         Referral   (Y/N)
@@ -245,9 +247,10 @@
              answerLabels="Yes (Y),No (N)" style="radio"/>
     </td>
 </tr>
+
 <tr>
     <td>
-        Invitation of contacts  (Y/N)    [try 124068]
+        Invitation of contacts  (Y/N)
     </td>
     <td>
         <obs conceptId="1000025FACES_FACES_FACES_FACES_FACES" answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
@@ -258,10 +261,12 @@
     <td>
         Evaluated for IPT  (Y/N)
     </td>
-    <td><obs conceptId="1000026FACES_FACES_FACES_FACES_FACES" answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-             answerLabels="Yes (Y),No (N)" style="radio"/></td>
+    <td><obs conceptId="162275AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+             answerLabels="Yes (Y),No (N)" style="radio"/>
+    </td>
 
 </tr>
+
 <tr>
     <td colspan="2">
         <table align="left">
@@ -279,15 +284,11 @@
                             <td colspan="3"><b>Ask for the following </b></td>
                         </tr>
                         <tr>
-                            <obsGroup groupingConceptId="1727AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA">
-                                            <span style="display: none">
-						                        <obs conceptId="1728AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="1000027FACES_FACES_FACES_FACES_FACES" style="checkbox" defaultValue="1000027"/>
-					                        </span>
-                                <td>1. Yellow coloured  urine  <b>Y/N</b> </td>
-                                <td colspan="2">
-                                    <obs conceptId="1000027FACES_FACES_FACES_FACES_FACES" labelText=" " answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="radio" answerLabels="Yes,No" />
-                                </td>
-                            </obsGroup>
+                            <td>1. Yellow coloured  urine  <b>Y/N</b> </td>
+                            <td colspan="2">
+                                <obs conceptId="1000027FACES_FACES_FACES_FACES_FACES" labelText=" " answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="radio" answerLabels="Yes,No" />
+                            </td>
+
                         </tr>
 
                         <tr>
@@ -295,10 +296,9 @@
                                             <span style="display: none">
 						                        <obs conceptId="1728AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="6004AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="checkbox" defaultValue="6004"/>
 					                        </span>
-
-
                                 <td>
-                                    2. Numbness/ burning sensation in the hands or feet   <b>Y/N</b>
+                                    <span id="ipt_q2_ad">2. Numbness/ burning sensation in the hands or feet   <b>Y/N</b></span>
+                                    <span id="ipt_q2_ch">2. Numbness or tingling sensations, regression in motor milestones,<br/> refusal to crawl, walk, or run <b>Y/N</b></span>
                                 </td>
                                 <td colspan="2">
                                     <obs conceptId="1729AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" labelText=" " answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="radio" answerLabels="Yes,No" />
@@ -313,29 +313,23 @@
                             <td colspan="2"></td>
                         </tr>
                         <tr>
-                            <obsGroup  groupingConceptId="1727AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA">
-                                            <span style="display: none">
-						                        <obs conceptId="1728AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="1000028FACES_FACES_FACES_FACES_FACES" style="checkbox" defaultValue="1000028"/>
-					                        </span>
-                                <td>1. Yellowness of eyes   <b>Y/N</b></td>
-                                <td colspan="2">
-                                    <obs conceptId="1000028FACES_FACES_FACES_FACES_FACES" labelText=" " answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="radio" answerLabels="Yes,No" />
-                                </td>
-                            </obsGroup>
+
+                            <td>1. Yellowness of eyes   <b>Y/N</b></td>
+                            <td colspan="2">
+                                <obs conceptId="1000069FACES_FACES_FACES_FACES_FACES" labelText=" " answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="radio" answerLabels="Yes,No" />
+                            </td>
+
                         </tr>
 
                         <tr>
-                            <obsGroup  groupingConceptId="1727AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA">
-                                            <span style="display: none">
-						                        <obs conceptId="1728AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="124994AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="checkbox" defaultValue="124994"/>
-					                        </span>
-                                <td>
-                                    2. Tenderness  in the upper right quadrant of the abdomen   <b>Y/N</b>
-                                </td>
-                                <td colspan="2">
-                                    <obs conceptId="1729AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" labelText=" " answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="radio" answerLabels="Yes,No" />
-                                </td>
-                            </obsGroup>
+
+                            <td>
+                                2. Tenderness  in the upper right quadrant of the abdomen   <b>Y/N</b>
+                            </td>
+                            <td colspan="2">
+                                <obs conceptId="1729AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" labelText=" " answerConceptIds="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,1066AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="radio" answerLabels="Yes,No" />
+                            </td>
+
                         </tr>
                         <tr>
 
@@ -370,22 +364,25 @@
                             <td>
                                 <b>Date started on IPT </b>
                             </td>
-                            <td colspan="2"><obs conceptId="1000029FACES_FACES_FACES_FACES_FACES" /></td>
+                            <td colspan="2">
+                                <obs id="ipt_Rx_date" conceptId="1000067FACES_FACES_FACES_FACES_FACES" />
+                                <lookup expression="fn.latestObs(1000067).getValueDatetime()"/>
+                            </td>
                         </tr>
                         <tr>
-                            <td colspan="3"><b>Indication for IPT (Tick √)</b></td>
+                            <td colspan="3"><b>Indication for IPT (Tick v)</b></td>
                         </tr>
                         <tr>
                             <td> 1 Child under 5 years exposed to active SM +ve PTB</td>
-                            <td colspan="2"><obs conceptId="1000030FACES_FACES_FACES_FACES_FACES" answerConceptId="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="checkbox" answerLabel=""   /></td>
+                            <td colspan="2"><obs conceptId="162276AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="162278AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="checkbox" answerLabel=""   /></td>
                         </tr>
                         <tr>
                             <td> 2 PLHIV <b>(Y/N)</b></td>
-                            <td colspan="2"><obs conceptId="1000032FACES_FACES_FACES_FACES_FACES" answerConceptId="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="checkbox" answerLabel=""   /></td>
+                            <td colspan="2"><obs conceptId="162276AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="138571AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="checkbox" answerLabel=""   /></td>
                         </tr>
                         <tr>
                             <td>3 Prisoner</td>
-                            <td colspan="2"><obs conceptId="1000031FACES_FACES_FACES_FACES_FACES" answerConceptId="1065AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="checkbox" answerLabel=""   /></td>
+                            <td colspan="2"><obs conceptId="162276AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" answerConceptId="162277AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" style="checkbox" answerLabel=""   /></td>
                         </tr>
 
                     </table>
@@ -394,7 +391,7 @@
                 <td>
                     <table class="tbICF" width="100%">
                         <tr>
-                            <td colspan="2"><b>IPT Outcome (Tick√)</b></td>
+                            <td colspan="2"><b>IPT Outcome (Tickv)</b></td>
                         </tr>
                         <tr>
                             <td><b><i>Event</i></b></td>
@@ -402,23 +399,23 @@
                         </tr>
                         <tr>
                             <td>Completed</td>
-                            <td><obs conceptId="1000033FACES_FACES_FACES_FACES_FACES"/></td>
+                            <td><obs id="completed" conceptId="162279AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/></td>
                         </tr>
                         <tr>
                             <td>Defaulted</td>
-                            <td><obs conceptId="1000035FACES_FACES_FACES_FACES_FACES"/></td>
+                            <td><obs id="defaulted" conceptId="162280AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/></td>
                         </tr>
                         <tr>
                             <td>Discontinued*</td>
-                            <td><obs conceptId="1000034FACES_FACES_FACES_FACES_FACES"/></td>
+                            <td><obs id="discontinued" conceptId="162281AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/></td>
                         </tr>
                         <tr>
-                            <td>Died</td>
-                            <td><obs conceptId="1543AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/></td>
+                            <td>Died </td>
+                            <td><obs id="died" conceptId="1543AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/></td>
                         </tr>
                         <tr>
                             <td>Transferred Out</td>
-                            <td><obs conceptId="160649AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/></td>
+                            <td><obs id="transferred" conceptId="160649AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"/></td>
                         </tr>
                     </table>
                     <br/>
@@ -427,7 +424,7 @@
                             <td>
                                 <b>*Reason for Discontinuation </b>
                             </td>
-                            <td><b>(Tick√)</b></td>
+                            <td><b>(Tickv)</b></td>
                         </tr>
                         <tr>
                             <td>Adverse drug reaction</td>
@@ -460,12 +457,9 @@
 </tr>
 </table>
 
-
-
 </div>
 
 <div class="ke-form-footer">
     <submit />
 </div>
-
 </htmlform>
