@@ -22,6 +22,7 @@
 				<ref bean="kenyaemr.app.chart" />
 			</set>
 		</property>
+        <property name="autoCreateVisitTypeUuid" value="3371a4d4-f66f-4454-a86d-92c7b3da990c" />
 		<property name="icon" value="keaddonexample:forms/example.png" />
 		<property name="htmlform" value="keaddonexample:example.xml" />
 	</bean>
@@ -46,6 +47,7 @@
                 <ref bean="kenyaemr.app.chart" />
             </set>
         </property>
+        <property name="autoCreateVisitTypeUuid" value="3371a4d4-f66f-4454-a86d-92c7b3da990c" />
         <property name="icon" value="keaddonexample:forms/generic.png" />
         <property name="htmlform" value="keaddonexample:congenitalForm.html" />
     </bean>
@@ -59,6 +61,7 @@
                 <ref bean="kenyaemr.app.chart" />
             </set>
         </property>
+        <property name="autoCreateVisitTypeUuid" value="3371a4d4-f66f-4454-a86d-92c7b3da990c" />
         <property name="icon" value="keaddonexample:forms/generic.png" />
         <property name="htmlform" value="keaddonexample:counselling.html" />
     </bean>
@@ -83,6 +86,7 @@
                 <ref bean="kenyaemr.app.chart" />
             </set>
         </property>
+        <property name="autoCreateVisitTypeUuid" value="3371a4d4-f66f-4454-a86d-92c7b3da990c" />
         <property name="icon" value="keaddonexample:forms/generic.png" />
         <property name="htmlform" value="keaddonexample:heiEnrollment.html" />
     </bean>
@@ -107,6 +111,7 @@
                 <ref bean="kenyaemr.app.chart" />
             </set>
         </property>
+        <property name="autoCreateVisitTypeUuid" value="3371a4d4-f66f-4454-a86d-92c7b3da990c" />
         <property name="icon" value="keaddonexample:forms/example.png" />
         <property name="htmlform" value="keaddonexample:labInvestigation.html" />
     </bean>
@@ -119,6 +124,7 @@
                 <ref bean="kenyaemr.app.chart" />
             </set>
         </property>
+        <property name="autoCreateVisitTypeUuid" value="3371a4d4-f66f-4454-a86d-92c7b3da990c" />
         <property name="icon" value="keaddonexample:forms/generic.png" />
         <property name="htmlform" value="keaddonexample:tb_icf.html" />
     </bean>

@@ -35,6 +35,7 @@ var LFU_CONCEPT_ID=5240;
 var PMTCT_CONCEPT_ID=1065;
 var HAART_CONCEPT_ID= 1185;
 
+
 function validateEncounterDate(){
     var today=new Date().getTime();
     var enc_date=new Date(getValue('encounter-date.value')).getTime();
@@ -132,20 +133,20 @@ function validaterefuseddateDate(){
 
 function validateestimateddateDate(){
     var today=new Date().getTime();
-    var estmateddate=new Date(getValue('estmateddate.value')).getTime();
+    var estimateddate=new Date(getValue('estimateddate.value')).getTime();
     var birthdate=new Date("<lookup expression="patient.birthdate"/>").getTime ();
 
-    if (estmateddate &gt; today){
-        getField('estmateddate.error').html('cannnot be a future date').show();
+    if (estimateddate &gt; today){
+        getField('estimateddate.error').html('cannnot be a future date').show();
     }
 
-    else if (estmateddate &lt; birthdate){
-        getField('estmateddate.error').html('cannot be less than the date of birth').show();
+    else if (estimateddate &lt; birthdate){
+        getField('estimateddate.error').html('cannot be less than the date of birth').show();
     }
 
     else
     {
-        getField('estmateddate.error').hide();
+        getField('estimateddate.error').hide();
     }
 }
 
@@ -153,6 +154,9 @@ jq(function() {
 
     var pbirthdate = new Date("<lookup expression="patient.birthdate" />").getTime();
     var discontinueDate;
+    //var regDate=new Date("<lookup expression="fn.earliestObs(1054).getObsDatetime()"/>").getTime();
+    var regDate=new Date("<lookup complexExpression="#foreach($encounter in $fn.allEncounters(null)) $encounter.encounterDatetime #end"/> ").getTime();
+
     getField('encounter-date.value').change(validateEncounterDate);
     validateEncounterDate();
     getField('transferdate.value').change(validateTransferDate);
@@ -161,7 +165,7 @@ jq(function() {
     validateDeathDate();
     getField('negativedate.value').change(validatenegativedateDate);
     validatenegativedateDate();
-    getField('estmateddate.value').change(validateestimateddateDate);
+    getField('estimateddate.value').change(validateestimateddateDate);
     validateestimateddateDate();
 
     getField('haart.value').change(function(){
@@ -304,17 +308,139 @@ jq(function() {
             jq('#transferred_out').find(':input').attr('disabled', true);
         }
 
-
     });
 
-    beforeSubmit.push(function() {
+    var DIED_HOME_CONCEPT_ID=1536;
+    var DIED_HEALTH_CENTER_CONCEPT_ID=1588;
+    var DIED_PRIVATE_CLINIC_CONCEPT_ID=160479;
+    var DIED_HOSPITAL_CONCEPT_ID=1589;
+    var DIED_OTHER_CONCEPT_ID=5622;
+
+    getField('died_Home.value').change(function(){
+        if(getValue('died_Home.value')== DIED_HOME_CONCEPT_ID)
+        {
+            setValue('died_Health_Center.value', '');
+            setValue('died_Private_Clinic.value', '');
+            setValue('died_Hospital.value', '');
+            setValue('died_Other.value', '');
+
+        }
+    });
+
+    getField('died_Health_Center.value').change(function(){
+        if(getValue('died_Health_Center.value')== DIED_HEALTH_CENTER_CONCEPT_ID)
+        {
+            setValue('died_Home.value', '');
+            setValue('died_Private_Clinic.value', '');
+            setValue('died_Hospital.value', '');
+            setValue('died_Other.value', '');
+
+        }
+    });
+
+    getField('died_Private_Clinic.value').change(function(){
+        if(getValue('died_Private_Clinic.value')== DIED_PRIVATE_CLINIC_CONCEPT_ID)
+        {
+            setValue('died_Home.value', '');
+            setValue('died_Health_Center.value', '');
+            setValue('died_Hospital.value', '');
+            setValue('died_Other.value', '');
+
+        }
+    });
+
+    getField('died_Hospital.value').change(function(){
+        if(getValue('died_Hospital.value')== DIED_HOSPITAL_CONCEPT_ID)
+        {
+            setValue('died_Home.value', '');
+            setValue('died_Health_Center.value', '');
+            setValue('died_Private_Clinic.value', '');
+            setValue('died_Other.value', '');
+
+        }
+    });
+
+    getField('died_Other.value').change(function(){
+        if(getValue('died_Other.value')== DIED_OTHER_CONCEPT_ID)
+        {
+            setValue('died_Home.value', '');
+            setValue('died_Health_Center.value', '');
+            setValue('died_Private_Clinic.value', '');
+            setValue('died_Hospital.value', '');
+
+        }
+    });
+
+
+        beforeSubmit.push(function() {
         discontinueDate = new Date(getValue('encounter-date.value')).getTime();
 
         if(discontinueDate &lt; pbirthdate){
-            getField('discontinueDate.error').html('Discontinue date, should not be earlier than Birth date').show();
+            getField('encounter-date.error').html('Discontinue date, should not be earlier than Birth date').show();
             return false;
         }
+
+        if((discontinueDate &lt; regDate)&amp;&amp;(discontinueDate!="undefined")){
+            getField('encounter-date.error').html('Discontinue date, should not be earlier than Registration date').show();getField('transferdate.error').html('Date of Transfer, should not be earlier than Enrollment/Registration date').show();
+                return false;
+        }
         // alert(pbirthdate+" and "+discontinueDate);
+
+        var msInYear=1000*60*60*24*365.25;
+        var msInMonth=1000*60*60*24*30.25;
+        var msInWeek=1000*60*60*24*7;
+        var birthDate = new Date(getValue('dob.value'))//.getTime();
+        var today = new Date()//.getTime();        //get current date
+        var ENC_DATE=new Date(getValue('encounter-date.value'))//.getTime();
+        var birthdateMs= new Date(<lookup expression="patient.birthdate.time"/>);              
+        var encounterDateMs=ENC_DATE.getTime();
+        var age = (encounterDateMs-birthdateMs)/msInYear;
+        var wks = (encounterDateMs-birthdateMs)/msInWeek;
+        var mths = (encounterDateMs-birthdateMs)/msInMonth;
+
+
+        if((age>=3)&amp;&amp;(getValue('dis_Hivneg.value')== HIVNEGATIVE_CONCEPT_ID))
+        {
+            alert("You have selected Infant Turned Hiv Negative, While this Patient is not an Infant and therefore this form cannot be submitted.. ");
+            return false;
+        }
+
+
+
+        var Death_Date = new Date(getValue('Deathdate.value')).getTime();
+        var Estimate_Date = new Date(getValue('estimateddate.value')).getTime();
+        var transfer_date= new Date(getValue('transferdate.value')).getTime();
+        var refused_date = new Date(getValue('refuseddate.value')).getTime();
+
+            if(getValue('dis_Deceased.value')== DECEASED_CONCEPT_ID)
+            {
+                if((Death_Date &lt; regDate)&amp;&amp;(Death_Date!="undefined")){
+                    getField('Deathdate.error').html('Date of Death, should not be earlier than Enrollment/Registration date').show();
+                    return false;
+                }
+
+                if((Estimate_Date &lt; regDate)&amp;&amp;(Estimate_Date!="undefined")){
+                    getField('estimateddate.error').html('Estimated Date of Death, should not be earlier than Enrollment/Registration date').show();
+                    return false;
+                }
+            }
+
+            if(getValue('dis_Transfer.value')== TRANSFEROUT_CONCEPT_ID)
+            {
+                if((transfer_date &lt; regDate)&amp;&amp;(transfer_date!="undefined")){
+                    getField('transferdate.error').html('Date of Transfer, should not be earlier than Enrollment/Registration date').show();
+                    return false;
+                }
+            }
+
+            if(getValue('dis_refusedCare.value')== REFUSEDCARE_CONCEPT_ID)
+            {
+                if((refused_date &lt; regDate)&amp;&amp;(refused_date!="undefined")){
+                    getField('refuseddate.error').html('Date Refused, should not be earlier than Enrollment/Registration date').show();
+                    return false;
+                }
+            }
+
         return true;
     });
 
@@ -337,10 +463,16 @@ jq(function() {
 
 <div class="ke-form-content">
 <table class="Discontinuation" align="center">
-<tr><td colspan="3"><table><tr>
-    <td>Name:<lookup class="value" expression="patient.personName"/></td>
-    <td><font color="white">.......................................</font>Patient ID:<lookup class="value" expression="patient.getPatientIdentifier(3)"/></td>
-    <td><font color="white">........................................</font>SEARCH ID:<lookup class="bold" expression="patient.getPatientIdentifier(11)"/></td></tr></table></td>
+<tr><td colspan="3">
+    <table><tr>
+            <td>Name:<lookup class="value" expression="patient.personName"/></td>
+            <td><font color="white">.......................................</font>Patient ID:<lookup class="value" expression="patient.getPatientIdentifier(3)"/>
+               
+            </td>
+            <td><font color="white">........................................</font>SEARCH ID:<lookup class="bold" expression="patient.getPatientIdentifier(11)"/></td>
+        </tr>
+    </table>
+</td>
 
 </tr>
 <tr>
@@ -440,7 +572,7 @@ jq(function() {
         <table class="Discontinuation" width="100%">
             <tr>
                 <td>Known Date of Death <obs conceptId="1543AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="Deathdate"/></td>
-                <td>Estimated Date of Death<obs conceptId="1544AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="estmateddate"/></td>
+                <td>Estimated Date of Death<obs conceptId="1544AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" id="estimateddate"/></td>
             </tr>
             <tr><td colspan="2">
                 Cause of Death:
